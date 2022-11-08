@@ -2,6 +2,7 @@ const cards = document.querySelectorAll(".card");
 const timeTag = document.querySelector(".time b");
 const flipsTag = document.querySelector(".flips b");
 const refreshBtn = document.querySelector(".details button");
+const aciertosFinales = document.querySelector(".details");
 
 let maxTime = 40;
 let timeLeft = maxTime;
@@ -10,6 +11,19 @@ let matchedCard = 0;
 let disableDeck = false;
 let isPlaying = false;
 let cardOne, cardTwo, timer;
+
+let oneCard = [];
+let twoCard = [];
+let arr = [];
+for (var i = 0; i < 8; i++) {
+    i = i++;
+    var x = Math.floor(Math.random()*(0-33+1)+33);
+    if(twoCard.indexOf(x)!=-1){i--;continue;}else{twoCard.push(x)}
+    
+  }
+  oneCard = twoCard.sort(()=>{return Math.random()-0.5});
+  arr = twoCard.concat(oneCard);
+  
 
 function initTimer() {
     if(timeLeft <= 0) {
@@ -42,6 +56,7 @@ function flipCard({target: clickedCard}) {
 function matchCards(img1, img2) {
     if(img1 === img2) {
         matchedCard++;
+        aciertosFinales.style.background = "green";
         if(matchedCard == 8 && timeLeft > 0) {
             return clearInterval(timer);
         }
@@ -50,6 +65,7 @@ function matchCards(img1, img2) {
         cardOne = cardTwo = "";
         return disableDeck = false;
     }
+    aciertosFinales.style.background = "red";
 
     setTimeout(() => {
         cardOne.classList.add("shake");
@@ -73,8 +89,8 @@ function shuffleCard() {
     flipsTag.innerText = flips;
     disableDeck = isPlaying = false;
 
-    let arr = [1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8];
-    arr.sort(() => Math.random() > 0.5 ? 1 : -1);
+    arr = arr.sort(()=>{return Math.random()-0.5});
+    console.log(arr);
 
     cards.forEach((card, index) => {
         card.classList.remove("flip");
